@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              Shell.NavBarIsVisible="False"
+             x:Class="TrendWatch.App.Views.WalletProfilePage"
+                          xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+
+             Title="ProfilePage">
+    <Grid   Margin="0,40,0,0" RowDefinitions="500,100" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"   >
+
+        <Image  Grid.Column="0" Grid.Row="0" WidthRequest="600"  Aspect="AspectFill"
+           HorizontalOptions="FillAndExpand"
+           VerticalOptions="FillAndExpand"  Source="walletcard.svg" ></Image>
+        <Grid  Margin="40,125" Grid.Row="0" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto">
+            <Label  TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterMedium" Text="MEMBER NAME"></Label>
+            <Label x:Name="lblName" Grid.Row="1" TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterRegular" Text=""></Label>
+            <Label Margin="0,30,0,0" Grid.Row="2" TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterMedium" Text="MOBILE NUMBER"></Label>
+            <Label x:Name="lblMobile" Grid.Row="3" TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterRegular" Text=""></Label>
+
+            <Label Margin="0,30,0,0" Grid.Row="4" TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterMedium" Text="Email"></Label>
+
+            <Label x:Name="lblEmail"  Grid.Row="5" TextColor="White" HorizontalOptions="Start"   FontSize="16" FontFamily="InterRegular" Text=""></Label>
+            
+            <!--<Label x:Name="lblUserName" Grid.Row="0" Grid.Column="1" TextColor="White" HorizontalOptions="Start"   FontSize="18" FontFamily="InterRegular" Text=""></Label>-->
+            <zxing:BarcodeGeneratorView   Margin="-20,67,0,0"  Grid.Row="6" WidthRequest="230" HeightRequest="50"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                                Value="123456789012" Format="Code128" />
+        </Grid>
+        <Grid  Grid.Row="1" RowDefinitions="auto,auto">
+             <Grid  Margin="0,5" Grid.Row="0" ColumnDefinitions="*,auto">
+            <Button Clicked="editButton_Clicked"  x:Name="editButton"    HeightRequest="40" FontFamily="InterSemiBold" Margin="10,10,10,5" FontSize="14" Text="Edit Profile" ></Button>
+            <Button Grid.Column="1" Clicked="changePasswordButton_Clicked"  HorizontalOptions="EndAndExpand"  x:Name="changePasswordButton"   HeightRequest="40" FontFamily="InterSemiBold" Margin="10,10,10,5" FontSize="14" Text="Change Password" ></Button>
+
+        </Grid>
+            <Button Grid.Row="1"  x:Name="LogOutButton"  Clicked="LogOutButton_Clicked"   HeightRequest="50" FontFamily="InterSemiBold" Margin="10,5,10,10" FontSize="16" Text="Logout" ></Button>
+        </Grid>
+    </Grid>
+</ContentPage>

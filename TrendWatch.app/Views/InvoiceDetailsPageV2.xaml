@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:converters="clr-namespace:TrendWatch.App.Helpers.Converters" 
+             x:Class="TrendWatch.App.Views.InvoiceDetailsPageV2"
+             Shell.NavBarIsVisible="false"
+             BackgroundColor="#F6F6F6"
+             Title="InvoiceDetailsPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="StarButtonStyle" TargetType="Button">
+                <Setter Property="Text" Value="★"/>
+                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="#d6cbb5"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+            <converters:StarConverter x:Key="StarConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <Grid BackgroundColor="White" RowDefinitions="auto,*">
+            <!--Header and back-->
+            <Grid BackgroundColor="White" ColumnDefinitions="auto,*,auto">
+
+                <Image Margin="20,20,20,10" Grid.Column="0" HorizontalOptions="Start" Grid.Row="0"   Source="back.svg">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnBack_Clicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label Grid.Column="1" Margin="20,20,20,10"  Grid.Row="0" VerticalOptions="Center"  Text="Invoice Details"  FontSize="18" FontFamily="InterSemiBold" />
+                <Image Margin="20,20,20,10" Grid.Column="2" HorizontalOptions="Start" Grid.Row="0" WidthRequest="25" HeightRequest="25"   Source="sharesqr.svg">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnExport_Clicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+            </Grid>
+            <!--End Header and back-->
+            <Grid Grid.Row="1"   Padding="0,0,0,0"  RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto">
+                <!--Image and Slogan-->
+                <StackLayout Grid.Row="0"  >
+                    <Image  Margin="0,5,0,0" HorizontalOptions="Center" WidthRequest="100" HeightRequest="80"  Source="{Binding CurrentInvoice.merchant.logo}"></Image>
+                    <Label  TextColor="#000000" HorizontalOptions="Center"   FontSize="16" FontFamily="DinMedium" Text="{Binding CurrentInvoice.merchant.Solgan}"></Label>
+                </StackLayout>
+                <!--End Image and Slogan-->
+                <!--Rate and Social-->
+                <Grid Grid.Row="1"  RowDefinitions="auto,auto"  >
+                    <StackLayout Margin="0,10,0,0" Grid.Row="0" Background="#ede9de" Padding="15,10">
+                        <Grid ColumnDefinitions="auto,*" >
+                            <Label WidthRequest="140" LineBreakMode="TailTruncation" Grid.Column="0" Grid.Row="0"  VerticalOptions="Center" VerticalTextAlignment="Center" TextColor="#000000" HorizontalOptions="Start"    FontSize="16" FontFamily="DinMedium" Text="RATE YOUR VISIT"></Label>
+                           
+                            <Grid  HorizontalOptions="FillAndExpand" HeightRequest="40" Grid.Column="1">
+                                <Grid    ColumnDefinitions="auto,auto,auto,auto,auto" VerticalOptions="Center"  HorizontalOptions="Center">
+                                
+                                <Button VerticalOptions="Start" Grid.Column="0" Padding="0" WidthRequest="30" HeightRequest="30"
+Style="{Binding CurrentInvoice.Rating, Converter={StaticResource StarConverter}, ConverterParameter=1}"
+Clicked="StarClicked" CommandParameter="1"/>
+                                <Button VerticalOptions="Start" Grid.Column="1" Padding="0" WidthRequest="30" HeightRequest="30"
+Style="{Binding CurrentInvoice.Rating, Converter={StaticResource StarConverter}, ConverterParameter=2}"
+Clicked="StarClicked" CommandParameter="2"/>
+                                <Button VerticalOptions="Start" Grid.Column="2" Padding="0" WidthRequest="30" HeightRequest="30"
+Style="{Binding CurrentInvoice.Rating, Converter={StaticResource StarConverter}, ConverterParameter=3}"
+Clicked="StarClicked" CommandParameter="3"/>
+                                <Button VerticalOptions="Start" Grid.Column="3" Padding="0" WidthRequest="30" HeightRequest="30"
+Style="{Binding CurrentInvoice.Rating, Converter={StaticResource StarConverter}, ConverterParameter=4}"
+Clicked="StarClicked" CommandParameter="4"/>
+                                <Button VerticalOptions="Start" Grid.Column="4" Padding="0" WidthRequest="30" HeightRequest="30"
+Style="{Binding CurrentInvoice.Rating, Converter={StaticResource StarConverter}, ConverterParameter=5}"
+Clicked="StarClicked" CommandParameter="5"/>
+                            </Grid>
+                            </Grid>
+                        </Grid>
+
+                    </StackLayout>
+                    <Grid Margin="0,0,0,0"  Grid.Row="1" HorizontalOptions="FillAndExpand"  Background="#d6cbb5" Padding="15,10" ColumnDefinitions="auto,*">
+                        <Label WidthRequest="140" LineBreakMode="TailTruncation" Grid.Row="0" VerticalOptions="Center" VerticalTextAlignment="Center" Grid.Column="0" TextColor="#000000" HorizontalOptions="Start"   FontSize="16" FontFamily="DinMedium" Text="{Binding CurrentInvoice.merchant.name}"></Label>
+                        <Grid   HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1">
+                        <Grid   HorizontalOptions="Center" ColumnSpacing="10" ColumnDefinitions="auto,auto,auto,auto" >
+                                <Image  IsVisible="{Binding CurrentInvoice.merchant.WhatsappLink, Converter={StaticResource NullToVisibilityConverter}}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="whatsapp.svg">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="White" />
+                                </Image.Behaviors>
+                                <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding CurrentInvoice.merchant.WhatsappLink}" />
+
+                                </Image.GestureRecognizers>
+                            </Image>
+                                <Image IsVisible="{Binding CurrentInvoice.merchant.TwitterLink, Converter={StaticResource NullToVisibilityConverter}}"  Grid.Row="0" Grid.Column="1" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="twitter.svg">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="White" />
+                                </Image.Behaviors>
+                                <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding CurrentInvoice.merchant.TwitterLink}" />
+
+                                </Image.GestureRecognizers>
+                            </Image>
+                                <Image IsVisible="{Binding CurrentInvoice.merchant.FacebookLink, Converter={StaticResource NullToVisibilityConverter}}" Grid.Row="0" Grid.Column="2" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="facebookf.svg">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="White" />
+                                </Image.Behaviors>
+                                <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding CurrentInvoice.merchant.FacebookLink}" />
+
+                                </Image.GestureRecognizers>
+                            </Image>
+                                <Image IsVisible="{Binding CurrentInvoice.merchant.InstagramLink, Converter={StaticResource NullToVisibilityConverter}}"  Grid.Row="1" Grid.Column="3" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="instagram.svg">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="White" />
+                                </Image.Behaviors>
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding CurrentInvoice.merchant.InstagramLink}" />
+
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <!--EndRate and Social-->
+                <Grid Grid.Row="2" Padding="0,10" RowDefinitions="auto,auto,auto">
+                    <Label  TextColor="#000000" HorizontalOptions="Center"   FontSize="16" FontFamily="DinMedium" Text="{Binding CurrentInvoice.merchant.name}"></Label>
+                    <Label Grid.Row="1" TextColor="#000000" HorizontalOptions="Center"   FontSize="14" FontFamily="DinMedium" Text="{Binding CurrentInvoice.branch.Address}"></Label>
+                    <Label Grid.Row="2" TextColor="#000000" HorizontalOptions="Center"   FontSize="14" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="DinMedium" FontAttributes="Bold"  Text="Delivery: " />
+                                <Span  Text="{Binding CurrentInvoice.branch.DeliveryNumber}" /> 
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Grid>
+                <StackLayout Grid.Row="3" Padding="10,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <!--Invoice Header-->
+                <Grid Grid.Row="4" Padding="10,5,0,0" RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*" >
+                    <Label Grid.Row="0" Grid.Column="0" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="{Binding CurrentInvoice.invoiceDate, StringFormat='{0:dd/MM/yyyy}'}"></Label>
+                    <Label Grid.Row="0" Grid.Column="1" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="{Binding CurrentInvoice.invoiceDate , StringFormat='{0:hh:mm tt}'}"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="15" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="DinMedium"  Text="INVOICE NO: " />
+                                <Span FontFamily="DinMedium" Text="{Binding CurrentInvoice.transactionReference}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="1" Grid.Column="1" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="15" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="DinMedium"  Text="MOBILE: " />
+                                <Span FontFamily="DinMedium" Text="{Binding CurrentInvoice.customerMobile}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="2" Grid.Column="0" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="15" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="DinMedium" Text="CUSTOMER: " />
+                                <Span FontFamily="DinMedium" Text="{Binding CurrentInvoice.customerName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="2" Grid.Column="1" Padding="10,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="15" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="DinMedium" Text="ITEMS: " />
+                                <Span FontFamily="DinMedium" Text="{Binding CurrentInvoice.invoiceItems.Count}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Grid>
+                <!--End Invoice Header-->
+                <StackLayout Grid.Row="5"  Margin="0,10,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <!--Invoice Items Header-->
+                <Grid  Margin="10,0,0,0" Grid.Row="6" RowDefinitions="25" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+                    <Label VerticalOptions="Center" Margin="5,5,0,0" Grid.Column="0" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="QTY"></Label>
+                    <StackLayout Grid.Column="1"  Margin="0,0,0,0"  HeightRequest="30" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label Grid.Column="2" VerticalOptions="Center" Margin="10,5,0,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="ITEM"></Label>
+                    <StackLayout Grid.Column="3" Margin="0,0,0,0"  HeightRequest="30" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label VerticalOptions="Center" Margin="0,5,5,0" Grid.Column="4" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="PRICE"></Label>
+
+                </Grid>
+                <!--End Invoice Items Header-->
+                <StackLayout  Grid.Row="7" Margin="0,10,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <CollectionView BackgroundColor="White"  Grid.Row="8" x:Name="collectionView" ItemsSource="{Binding CurrentInvoice.invoiceItems}">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid  Margin="10,0,0,0" Grid.Row="9" RowDefinitions="auto" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+                                <Label Margin="0,0,0,0" Grid.Column="0" TextColor="#000000" HorizontalOptions="Center"   FontSize="14" FontFamily="DinMedium" Text="{Binding quantity}"></Label>
+                                <StackLayout VerticalOptions="Start" Grid.Column="1" Margin="0,0,0,0"  HeightRequest="20" Padding="10,0">
+                                    <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="45"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                                </StackLayout>
+                                <Label Grid.Column="2" Margin="0,0,0,0" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="{Binding itemName}"></Label>
+                                <StackLayout Grid.Column="3" VerticalOptions="Start" Margin="0,0,0,0"  HeightRequest="20" Padding="10,0">
+                                    <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="45"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                                </StackLayout>
+                                <Label Margin="0,0,0,0" Grid.Column="4" HorizontalOptions="Start" TextColor="#000000"   FontSize="14" FontFamily="DinMedium" Text="{Binding price}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontSize="14"   Text="{Binding price}" />
+                                            <Span FontSize="14"  Text=" EGP" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <StackLayout  Grid.Row="9" Margin="0,0,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <Grid  Margin="10,0,0,0" Grid.Row="10" RowDefinitions="40" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+
+                    <StackLayout Grid.Column="1"  Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+
+                    </StackLayout>
+                    <Label Grid.Column="2" VerticalOptions="Center" Margin="10,5,0,0" TextColor="#000000" HorizontalOptions="End"   FontSize="14" FontFamily="DinMedium" Text="SUBTOTAL"></Label>
+                    <StackLayout Grid.Column="3" Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label VerticalOptions="Center" Margin="0,5,5,0" Grid.Column="4" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="14"   Text="{Binding CurrentInvoice.total}" />
+                                <Span FontSize="14"  Text=" EGP" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Grid>
+                <Grid  Margin="10,0,0,0" Grid.Row="11" RowDefinitions="40" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+
+                    <StackLayout Grid.Column="1"  Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+
+                    </StackLayout>
+                    <Label Grid.Column="2" VerticalOptions="Center" Margin="10,5,0,0" TextColor="#000000" HorizontalOptions="End"   FontSize="14" FontFamily="DinMedium" Text="DISCOUNT"></Label>
+                    <StackLayout Grid.Column="3" Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label VerticalOptions="Center" Margin="0,5,5,0" Grid.Column="4" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="14"   Text="{Binding CurrentInvoice.discount}" />
+                                <Span FontSize="14"  Text=" EGP" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Grid>
+                <Grid  Margin="10,0,0,0" Grid.Row="12" RowDefinitions="40" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+
+                    <StackLayout Grid.Column="1"  Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+
+                    </StackLayout>
+                    <Label Grid.Column="2" FontAttributes="Bold" VerticalOptions="Center" Margin="10,5,0,0" TextColor="#000000" HorizontalOptions="End"   FontSize="14" FontFamily="DinMedium" Text="TOTAL"></Label>
+                    <StackLayout Grid.Column="3" Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label VerticalOptions="Center" Margin="0,5,5,0" Grid.Column="4" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="14"   Text="{Binding CurrentInvoice.total}" />
+                                <Span FontSize="14"  Text=" EGP" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Grid>
+                <StackLayout  Grid.Row="13" Margin="0,0,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <Grid  Margin="10,0,0,0" Grid.Row="14" RowDefinitions="40" ColumnDefinitions="40,25,180,25,80" Padding="0,0,0,0" >
+                    <StackLayout Grid.Column="1"  Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+
+                    </StackLayout>
+                    <Label Grid.Column="2" VerticalOptions="Center" Margin="10,5,0,0" TextColor="#000000" HorizontalOptions="End"   FontSize="14" FontFamily="DinMedium" Text="PAYMENT METHOD"></Label>
+                    <StackLayout Grid.Column="3" Margin="0,0,0,0"  HeightRequest="40" Padding="10,0">
+                        <Line Stroke="Black"  
+X1="0" Y1="0"
+X2="0" Y2="40"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                    </StackLayout>
+                    <Label VerticalOptions="Center" Margin="0,5,5,0" Grid.Column="4" TextColor="#000000" HorizontalOptions="Start"   FontSize="14" FontFamily="DinMedium" Text="CASH"></Label>
+
+                </Grid>
+                <StackLayout  Grid.Row="15" Margin="0,0,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <Grid Grid.Row="16" >
+                    <zxing:BarcodeGeneratorView Margin="0,10,0,0"   WidthRequest="230" HeightRequest="50"
+                     HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                     Value="{Binding CurrentInvoice.transactionReference}" Format="Code128" />
+                </Grid>
+                <Grid Padding="15" Grid.Row="17" RowDefinitions="auto,auto" >
+                    <Label  TextColor="#000000" HorizontalOptions="End"  FontAttributes="Bold"  FontSize="13" FontFamily="DinArabicBold" Text="سياية الاسترجاع"></Label>
+                    <Label LineBreakMode="WordWrap"  HorizontalTextAlignment="End"  Grid.Row="1" HorizontalOptions="End" TextColor="#000000"    FontSize="12" FontFamily="DinMedium" Text="{Binding CurrentInvoice.merchant.desclimar}"></Label>
+                    
+                    <!--<Label Grid.Row="1" HorizontalOptions="End" TextColor="#000000"    FontSize="12" FontFamily="DinMedium" Text="قبول المرتجعات خلال 14 يوم. أدوية الثلاجة لا ترد ولا تستبدل"></Label>
+                    <Label Grid.Row="2" HorizontalOptions="End" TextColor="#000000"   FontSize="12" FontFamily="DinMedium" Text="المستحضرات لا ترد ولا تستبدل في حالة فتح العبوة أو استخدامها"></Label>-->
+
+
+                </Grid>
+                <StackLayout  Grid.Row="18" Margin="0,0,0,0" Padding="10,0,0,0">
+                    <Line Stroke="Black"  HorizontalOptions="FillAndExpand"
+X1="0" Y1="0"
+X2="500" Y2="0"
+StrokeThickness="1"
+StrokeDashArray="2,2" />
+                </StackLayout>
+                <Grid Padding="15" Grid.Row="19" RowDefinitions="auto" >
+                    <Label  TextColor="#000000" HorizontalOptions="Center" FontAttributes="Bold"    FontSize="16" FontFamily="DinMedium" Text="**THANK YOU**"></Label>
+
+
+                </Grid>
+
+                <Grid Margin="10,0" Padding="0" Grid.Row="20" RowDefinitions="auto" >
+                    <Frame HeightRequest="120" Grid.Row="0" Padding="0" Grid.Column="1" CornerRadius="20" BorderColor="#EFEBDF" BackgroundColor="#EFEBDF">
+                        <Grid ColumnDefinitions="auto,*,auto" >
+                            <Image WidthRequest="60"  Source="footerleft.png"></Image>
+                            <Grid RowSpacing="10" VerticalOptions="Center" Grid.Column="1" RowDefinitions="auto,auto,auto">
+                                <Label Margin="0,0,0,0" TextColor="Gray" HorizontalOptions="Center" LineBreakMode="NoWrap"   FontSize="13" FontFamily="DinMedium" Text="Let's plant the Earth again"></Label>
+                                <Grid ColumnSpacing="5" Padding="0,0,0,0" HorizontalOptions="Center" Grid.Row="1" ColumnDefinitions="auto,auto,auto,auto">
+                                    <Image Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="twitter.svg">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Black" />
+                                        </Image.Behaviors>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="https://twitter.com/i/flow/login?redirect_after_login=%2FBill2GoOfficial" />
+
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image  Grid.Column="1" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="linkedin.svg">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Black" />
+                                        </Image.Behaviors>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="https://www.linkedin.com/company/bill-2-go/" />
+
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image  Grid.Column="2" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="facebookf.svg">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Black" />
+                                        </Image.Behaviors>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="https://www.facebook.com/Bill2GoOfficial?mibextid=ZbWKwL" />
+
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image  Grid.Column="3" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"  Source="instagram.svg">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Black" />
+                                        </Image.Behaviors>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="https://www.instagram.com/bill2go.me/?igshid=MzMyNGUyNmU2YQ%3D%3D" />
+
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                                <Grid ColumnSpacing="5"  Padding="0,0,0,0" HorizontalOptions="Center" Grid.Row="2" ColumnDefinitions="auto,auto">
+                                    <Image Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" HorizontalOptions="Center" WidthRequest="80"  Aspect="AspectFit"   Source="apple.svg">
+
+                                    </Image>
+                                    <Image Aspect="AspectFit"  Grid.Column="1" Margin="0,0,0,0" HorizontalOptions="Center"  WidthRequest="80"  Source="appstore.png">
+
+                                    </Image>
+
+                                </Grid>
+
+                            </Grid>
+                            <Image WidthRequest="80" Grid.Column="2" Margin="0,0,5,0"  Source="footerlogo.png"></Image>
+
+                        </Grid>
+                    </Frame>
+
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

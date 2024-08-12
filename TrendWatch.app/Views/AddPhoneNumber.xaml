@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.AddPhoneNumber"
+             xmlns:converters="clr-namespace:TrendWatch.App.Helpers.Converters"
+              Shell.NavBarIsVisible="False"
+             >
+    <ContentPage.Resources>
+
+        <converters:ValidLengthConverter x:Key="LengthConverter" MinInputLength="11" MaxInputLength="11" />
+       
+    </ContentPage.Resources>
+    <VerticalStackLayout Spacing="25" Padding="30">
+        
+        <Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg" >
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnBack_Clicked" />
+            </Image.GestureRecognizers>
+        </Image>
+        <Label Text="Enter your mobile number" FontSize="Medium"/>
+        <Border Stroke="#F6F6F6" BackgroundColor="#F6F6F6"
+  StrokeThickness="1" Grid.Row="3"
+  StrokeShape="RoundRectangle 10,10,10,10"
+  Padding="15,3"
+  HorizontalOptions="FillAndExpand">
+            <Entry x:Name="phoneNumberEntry" Placeholder="" Keyboard="Telephone" BackgroundColor="#F6F6F6" TextChanged="OnPhoneNumberChanged"/>
+        </Border>
+        <Grid >
+
+            <Button   x:Name="continueButton" Clicked="Button_Clicked"  HeightRequest="56" FontFamily="InterSemiBold" Margin="0,10" FontSize="18" Text="Continue" IsEnabled="False" Style="{StaticResource DisabledButtonStyle}"  >
+
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference phoneNumberEntry},
+                       Path=Text.Length,
+                            Converter={StaticResource LengthConverter}}"
+                   Value="true" />
+                         
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Setter Property="Style" Value="{StaticResource EnabledButtonStyle}" />
+                        <Setter Property="Text" Value="Continue" />
+                    </MultiTrigger>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+
+                            <BindingCondition Binding="{Binding IsLoading}" Value="True" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Style" Value="{StaticResource DisabledButtonStyle}" />
+                        <Setter Property="Text" Value="" />
+                    </MultiTrigger>
+                
+                </Button.Triggers>
+
+            </Button>
+            <HorizontalStackLayout HorizontalOptions="Center" IsVisible="{Binding IsLoading}"  >
+                <ActivityIndicator   HeightRequest="35"  WidthRequest="35" IsRunning="{Binding IsLoading}"></ActivityIndicator>
+                <Label Margin="5,0,0,0"  VerticalOptions="Center" HorizontalOptions="Center"  FontSize="15" FontFamily="InterRegular" Text="Please wait .."  TextColor="#5E5E5E"></Label>
+
+            </HorizontalStackLayout>
+
+        </Grid>
+    </VerticalStackLayout>
+    
+</ContentPage>
+

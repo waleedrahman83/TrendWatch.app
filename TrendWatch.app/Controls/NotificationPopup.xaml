@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup   
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="TrendWatch.App.Controls.NotificationPopup">
+    
+        <Frame  Margin="10,0"
+            BorderColor="Black" 
+           VerticalOptions="Start"
+            CornerRadius="5"
+            HasShadow="True"
+            >
+           
+            <StackLayout Padding="5"  >
+            <Image x:Name="imgIcon"  Margin="0,0,0,5" HorizontalOptions="Center" WidthRequest="40" HeightRequest="40"  Source="{Binding Icon}">
+                <!--<Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{Binding IconColor}" />
+                </Image.Behaviors>-->
+            </Image>
+            <Label HorizontalOptions="Center" FontSize="14" HorizontalTextAlignment="Center" x:Name="dialogTitle" Text="{Binding DialogTitle}" FontFamily="InterSemiBold" />
+
+            <Label  HorizontalOptions="Center" FontSize="12" HorizontalTextAlignment="Center" x:Name="dialogText" Text="{Binding DialogMessage}" LineBreakMode="WordWrap" FontFamily="InterMedium" />
+                <StackLayout Padding="0,5" Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                <Button FontSize="12" HeightRequest="40" TextColor="White"  Margin="0,5,0,0" Text="Try Again" IsVisible="{Binding CanTry}" Clicked="OnTryAgainClicked" VerticalOptions="Start" HorizontalOptions="Center" />
+                <Button FontSize="12" HeightRequest="40" TextColor="White" Background="#2D2D2D"  Margin="0,5,0,5" Text="{Binding CloseButtonText}" Clicked="OnCloseButtonClicked" VerticalOptions="Start" HorizontalOptions="Center" />
+
+                </StackLayout>
+            </StackLayout>
+    </Frame>
+        
+    
+</toolkit:Popup>

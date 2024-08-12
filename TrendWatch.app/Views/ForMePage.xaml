@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.ForMePage" 
+xmlns:svgg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+   xmlns:vm="clr-namespace:TrendWatch.App.ViewModels"
+             
+             Shell.NavBarIsVisible="false"
+             >
+
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <Grid   Margin="0" RowDefinitions="auto,auto,auto" BackgroundColor="#F5F5F5" >
+            <Frame Padding="10,5" Grid.Row="0"  Margin="10" BorderColor="White" BackgroundColor="White" >
+                <Grid RowDefinitions="auto,*,auto,auto" >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="18" FontFamily="InterSemiBold" Text="Your Bookmarks" TextColor="#FF6F61"></Label>
+                    <CarouselView Grid.Row="1" x:Name="carouselBookmark" 
+                  ItemsSource="{Binding BookMarkedNews}" 
+                  >
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="auto,*" >
+                                    <Image HorizontalOptions="Start"  VerticalOptions="Center" WidthRequest="80"  Grid.Row="0" Source="{Binding ImageURL}" Aspect="AspectFill" />
+                                    <Grid Grid.Column="1"  RowDefinitions="auto,auto,*" Padding="10,5" >
+                                        <StackLayout  Grid.Row="0" Orientation="Horizontal">
+                                            <svgg:SvgCachedImage     Source="{Binding SourceLogoURL}"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+HeightRequest="20"/>
+                                            <Label  HorizontalOptions="End" HorizontalTextAlignment="End" Padding="50,0" VerticalOptions="Center" VerticalTextAlignment="Center"  TextColor="Grey" Text="{Binding ArticleDate, StringFormat='{0:dd-MMM-yy hh:mm tt}'}"   FontSize="12" />
+
+
+                                        </StackLayout>
+
+                                        <Label Text="{Binding Title}"  Grid.Row="1" FontFamily=""  HorizontalOptions="Start" />
+                                    </Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ArticleClickCommand}" CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+
+
+                    <Label Grid.Row="2"   HorizontalOptions="End" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterSemiBold" Text="View all" TextColor="#000000"></Label>
+
+
+                </Grid>
+            </Frame>
+
+            <Frame Padding="10,5" Grid.Row="1"  Margin="10" BorderColor="White" BackgroundColor="White" >
+                <Grid RowDefinitions="auto,*,auto,auto" >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="18" FontFamily="InterSemiBold" Text="For you" TextColor="#FF6F61"></Label>
+                    <CarouselView Grid.Row="1" x:Name="carouselViewForYou" 
+                  ItemsSource="{Binding ForMe}" 
+                  >
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="auto,*" >
+                                    <Image HorizontalOptions="Start"  VerticalOptions="Center" WidthRequest="80"  Grid.Row="0" Source="{Binding ImageURL}" Aspect="AspectFill" />
+                                    <Grid Grid.Column="1"  RowDefinitions="auto,auto,*" Padding="10,5" >
+                                        <StackLayout  Grid.Row="0" Orientation="Horizontal">
+                                            <svgg:SvgCachedImage     Source="{Binding SourceLogoURL}"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+HeightRequest="20"/>
+                                            <Label  HorizontalOptions="End" HorizontalTextAlignment="End" Padding="50,0" VerticalOptions="Center" VerticalTextAlignment="Center"  TextColor="Grey" Text="{Binding ArticleDate, StringFormat='{0:dd-MMM-yy hh:mm tt}'}"   FontSize="12" />
+
+
+                                        </StackLayout>
+
+                                        <Label Text="{Binding Title}"  Grid.Row="1" FontFamily=""  HorizontalOptions="Start" />
+                                        <Label  Text="{Binding Summary}" LineBreakMode="WordWrap"  WidthRequest="230"  Grid.Row="2" FontSize="Small" HorizontalOptions="Start" />
+                                    </Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ArticleClickCommand}" CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+
+                    <Label Grid.Row="2"    HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="12" FontFamily="InterRegulariBold" Text="Personalized news tailored for you based on your reading preferences and behavior" TextColor="Gray"></Label>
+
+                    <Label Grid.Row="3"   HorizontalOptions="End" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterSemiBold" Text="View all" TextColor="#000000"></Label>
+
+
+                </Grid>
+            </Frame>
+            <Frame Padding="10,5" Grid.Row="2"  Margin="10"  BorderColor="White" BackgroundColor="White" >
+                <Grid  RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto"   >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Start"    FontSize="18" FontFamily="InterSemiBold" Text="Tailor Your News Experience" TextColor="#FF6F61"></Label>
+                    <Label Grid.Row="1" Padding="10,0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Start"    FontSize="14" FontFamily="InterRegular" Text="Follow your preferred news categories" TextColor="Gray"></Label>
+                    <Grid RowDefinitions="auto" Margin="10" ColumnDefinitions="auto,auto,auto" Grid.Row="2">
+                        <Frame Margin="0,0,10,0"  Padding="12,7"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#World News" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="1"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Politics" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="2"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Business" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                    </Grid>
+                    <Grid RowDefinitions="auto"  Margin="10,0" ColumnDefinitions="auto,auto,auto" Grid.Row="3">
+                        <Frame Margin="0,0,10,0"  Padding="12,7"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Technology" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="1"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Health" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="2"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Science" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                    </Grid>
+                    <Grid RowDefinitions="auto"   Margin="10,10" ColumnDefinitions="auto,auto,auto" Grid.Row="4">
+                        <Frame Margin="0,0,10,0"  Padding="12,7"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Sports" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="1"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="#Entertainment" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="2"  CornerRadius="5" BorderColor="#b3cde0" BackgroundColor="#a8daf9">
+                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular" Text="+ More" TextColor="#3f4757"></Label>
+
+                        </Frame>
+                    </Grid>
+                    <Label Grid.Row="5" Padding="10,0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Start"    FontSize="14" FontFamily="InterRegular" Text="Choose News Sources" TextColor="Gray"></Label>
+                    <Grid ColumnSpacing="20" Margin="10" Grid.Row="6" ColumnDefinitions="auto,auto,auto,auto" >
+                        <svgg:SvgCachedImage     Source="https://1000logos.net/wp-content/uploads/2017/04/Symbol-New-York-Times.png"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+WidthRequest="50" 
+HeightRequest="30"/>
+                        <svgg:SvgCachedImage  Grid.Column="1"    Source="https://1000logos.net/wp-content/uploads/2016/10/BBC-Logo-1.png"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+WidthRequest="50" 
+HeightRequest="30"/>
+                        <svgg:SvgCachedImage  Grid.Column="2"    Source="https://1000logos.net/wp-content/uploads/2020/10/Sky-News-Logo.png"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+WidthRequest="50" 
+HeightRequest="30"/>
+                        <svgg:SvgCachedImage  Grid.Column="3"    Source="https://1000logos.net/wp-content/uploads/2021/04/CNN-logo.png"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+WidthRequest="50" 
+HeightRequest="30"/>
+
+                    </Grid>
+                    <StackLayout  Spacing="10" HorizontalOptions="Center" Grid.Row="7" Orientation="Horizontal"  >
+                    <Button   HeightRequest="40" FontFamily="InterSemiBold" Margin="0,10" FontSize="14" Text="Save"  >
+                    </Button>
+                        <Button BackgroundColor="#3f4757" TextColor="White"  HeightRequest="40" FontFamily="InterSemiBold" Margin="0,10" FontSize="14" Text="Cancel"  >
+                        </Button>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

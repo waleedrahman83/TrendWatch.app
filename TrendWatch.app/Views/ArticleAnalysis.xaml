@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.ArticleAnalysis"
+             Shell.NavBarIsVisible="False"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             >
+    <Grid Padding="15" RowDefinitions="auto,auto,*" >
+        <Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnBack_Clicked" />
+            </Image.GestureRecognizers>
+        </Image>
+        <Label  Grid.Row="1" VerticalOptions="Center" Grid.Column="0" Margin="0,15" FontSize="24" FontFamily="InterSemiBold" Text="Article Analysis" TextColor="{StaticResource Primary}"></Label>
+
+        <Grid Grid.Row="2">
+            <ScrollView Grid.Row="0">
+                <Label FormattedText="{Binding FormatedArticleAnalysis}" VerticalOptions="Center" Grid.Column="0" Margin="0,15" FontSize="12" FontFamily="InterRegular"  ></Label>
+            </ScrollView>
+            <HorizontalStackLayout Grid.Row="0" HorizontalOptions="Center" IsVisible="{Binding IsLoading}"  >
+                <ActivityIndicator   HeightRequest="35"  WidthRequest="35" IsRunning="{Binding IsLoading}"></ActivityIndicator>
+                <Label Margin="5,0,0,0"  VerticalOptions="Center" HorizontalOptions="Center"  FontSize="15" FontFamily="InterRegular" Text="Please wait .."  TextColor="#5E5E5E"></Label>
+
+            </HorizontalStackLayout>
+        </Grid>
+       
+    </Grid>
+</ContentPage>

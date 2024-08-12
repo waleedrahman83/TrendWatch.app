@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.NotifcationPage"
+              Shell.NavBarIsVisible="False"
+             >
+    
+    
+    <Grid RowDefinitions="auto,auto,*" >
+        
+        <Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg" >
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnBack_Clicked" />
+            </Image.GestureRecognizers>
+        </Image>
+
+
+
+        <!--IsVisible="{Binding IsLoading}"
+        IsVisible="{Binding HasNoti}"-->
+        <Grid Grid.Row="2" Margin="0,15,0,0" BackgroundColor="#F6F6F6" RowDefinitions="auto,*,auto">
+
+            <Grid Grid.Row="1"
+          >
+                <CollectionView  Grid.Row="1"  
+               
+                SelectionMode="Single"  
+                Margin="15,0" 
+                IsGrouped="True" ItemsSource="{Binding Notification , Mode=TwoWay}" 
+                VerticalScrollBarVisibility="Always">
+
+
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+
+                            <Label Margin="0,5"  FontSize="13" TextColor="#828282" FontFamily="InterSemiBold"   Text="{Binding Path=CreatedOn, StringFormat='{}{0:dd MMMM, yyyy }'}" />
+
+                        </DataTemplate>
+
+                    </CollectionView.GroupHeaderTemplate>
+
+
+
+                    <CollectionView.ItemTemplate >
+
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,2"  BackgroundColor="White" Padding="10" RowDefinitions="*,auto" ColumnDefinitions="auto,*,auto" >
+                                
+                                <VerticalStackLayout Spacing="10"  Padding="10"  Grid.Column="1">
+                                    <Label FontSize="18" LineHeight="26" FontFamily="InterMedium" Text="{Binding Title}"></Label>
+                                    <!--<Label  FontSize="12" LineHeight="26" TextColor="#828282" Text="{Binding Path=InvoiceDate, StringFormat='{}{0:dd-MMM-yy hh:mm:ss tt }'}" FontFamily="InterRegular"></Label>-->
+
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Padding="10" Spacing="10"  Grid.Column="2">
+                                    <Label FontSize="14" HorizontalOptions="EndAndExpand" TextColor="#226B3C" FontFamily="InterSemiBold" >
+
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span  Text="{Binding Description}" />
+                                                
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+                                   
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!--<ActivityIndicator Grid.Row="2" Color="{StaticResource Primary}" IsRunning="{Binding IsLoading}"  HeightRequest="50" WidthRequest="50" />-->
+
+
+            </Grid>
+
+
+            <!--<Frame Margin="15,25" BorderColor="White" BackgroundColor="White" IsVisible="{Binding HasNoti}">
+                <Grid RowDefinitions="auto,auto" >
+                    <Frame Margin="20" WidthRequest="50" HeightRequest="50" Grid.Row="0" Padding="10"  CornerRadius="20" BorderColor="#F2EDE6" BackgroundColor="#F2EDE6">
+                        <Image  Source="invoiceblue.svg"></Image>
+                    </Frame>
+
+                    <Label Grid.Row="1"   HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterSemiBold" Text="" TextColor="#000000"></Label>
+
+                </Grid>
+            </Frame>-->
+
+
+            <!--<ActivityIndicator Grid.Row="1" Color="{StaticResource Primary}"
+             IsRunning="{Binding IsLoading}" HeightRequest="50" WidthRequest="50"
+             />-->
+        </Grid>
+
+
+
+
+    </Grid>
+</ContentPage>

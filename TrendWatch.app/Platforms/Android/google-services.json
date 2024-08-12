@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "955572278174",
+    "project_id": "bill2go-1a100",
+    "storage_bucket": "bill2go-1a100.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955572278174:android:5b570cd5fa44fd71b6bc8f",
+        "android_client_info": {
+          "package_name": "TrendWatch.App"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqV6Pk9aPIL8UX1aWNgYECPRyjWPI8hFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

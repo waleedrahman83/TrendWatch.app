@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TrendWatch.App.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TrendWatch.App"
+    xmlns:views="clr-namespace:TrendWatch.App.Views"
+    Shell.FlyoutBehavior="Disabled">
+
+    <!--Loading Page-->
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:LoadingPage}"
+        Route="loading" />
+
+    
+    <!--Login Page-->
+    <ShellContent 
+        Title="Login" 
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="login"/>
+    <!--Main Page-->
+    <TabBar x:Name="shelltabbar">
+
+        <Tab x:Name="pageHome"  Icon="home01.svg"   Title="Home" >
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
+        </Tab>
+        <Tab Icon="forme.svg" x:Name="pageInsights"  Title="For Me">
+            <ShellContent  ContentTemplate="{DataTemplate views:ForMePage}"/>
+        </Tab>
+        <Tab Icon="analyze.svg" x:Name="pageScan"  Title="Anaylyze">
+            <ShellContent Shell.PresentationMode="Modal"  ContentTemplate="{DataTemplate views:AnalysisPage}"/>
+        </Tab>
+        <Tab Icon="radio.svg" x:Name="pageRadio"  Title="Radio">
+            <ShellContent  ContentTemplate="{DataTemplate views:RadioPage}"/>
+        </Tab>
+       
+    </TabBar>
+</Shell>

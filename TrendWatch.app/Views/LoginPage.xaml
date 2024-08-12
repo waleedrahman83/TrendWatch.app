@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.LoginPage"
+             Shell.NavBarIsVisible="False"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+xmlns:converters="clr-namespace:TrendWatch.App.Helpers.Converters"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             >
+    <ContentPage.Resources>
+       
+        <converters:ValidLengthConverter x:Key="LengthConverter" MinInputLength="3" MaxInputLength="20" />
+        <!--<Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+        -->
+    </ContentPage.Resources>
+    <Grid Padding="15" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" >
+        <Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnBack_Clicked" />
+            </Image.GestureRecognizers>
+        </Image>
+        <Label Grid.Row="1" VerticalOptions="Center" Grid.Column="0" Margin="0,15" FontSize="24" FontFamily="InterSemiBold" Text="Login to your account" TextColor="{StaticResource Primary}"></Label>
+        <Label Grid.Row="2" VerticalOptions="Center" Grid.Column="0"  FontSize="16" FontFamily="InterRegular" Text="Mobile Number"></Label>
+        <Border Stroke="#F6F6F6" BackgroundColor="#F6F6F6"
+         StrokeThickness="1" Grid.Row="3"
+         StrokeShape="RoundRectangle 10,10,10,10"
+         Padding="15,3"
+         HorizontalOptions="FillAndExpand">
+            <Entry   Keyboard="Telephone"  x:Name="entryUsername" HeightRequest="48" BackgroundColor="#F6F6F6" >
+                <!--<Entry.Behaviors>
+                    <toolkit:TextValidationBehavior 
+                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"
+                Flags="ValidateOnValueChanged"
+                MinimumLength="1"
+                MaximumLength="10" />
+                </Entry.Behaviors>-->
+            </Entry>
+        </Border>
+        <Label Grid.Row="4" Margin="0,10,0,0" VerticalOptions="Center" Grid.Column="0"  FontSize="16" FontFamily="InterRegular" Text="Password"></Label>
+        <Border Grid.Row="5" Stroke="#F6F6F6" BackgroundColor="#F6F6F6"
+         StrokeThickness="1" 
+         StrokeShape="RoundRectangle 10,10,10,10"
+         Padding="15,3"
+         HorizontalOptions="FillAndExpand">
+            <Entry  IsPassword="True"  x:Name="entryPassword" HeightRequest="48" BackgroundColor="#F6F6F6"></Entry>
+        </Border>
+
+        <Label Grid.Row="6"
+       Margin="0,10"
+       VerticalOptions="Center"
+       Grid.Column="0"
+       TextDecorations="Underline"
+       FontSize="14"
+       FontFamily="InterRegular"
+       Text="Forgot password"
+       TextColor="#5E5E5E">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <Label Grid.Row="6" Margin="0,10" VerticalOptions="Center" Grid.Column="0" TextDecorations="Underline"  FontSize="14" FontFamily="InterRegular" Text="Forgot password"  TextColor="#5E5E5E"></Label>
+
+        <Grid Grid.Row="7">
+           
+            <Button   x:Name="LoginButton" Clicked="LoginButton_Clicked"  HeightRequest="56" FontFamily="InterSemiBold" Margin="0,10" FontSize="18" Text="Continue" IsEnabled="False" Style="{StaticResource DisabledButtonStyle}"  >
+            
+        <Button.Triggers>
+            <MultiTrigger TargetType="Button">
+                <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding Source={x:Reference entryUsername},
+                              Path=Text.Length,
+                                   Converter={StaticResource LengthConverter}}"
+                          Value="true" />
+                        <BindingCondition Binding="{Binding Source={x:Reference entryPassword},
+                              Path=Text.Length,
+                                   Converter={StaticResource LengthConverter}}"
+                          Value="true" />
+                            <!--<BindingCondition Binding="{Binding IsLoading}" Value="False" />-->
+                        </MultiTrigger.Conditions>
+
+                <Setter Property="IsEnabled" Value="True" />
+                <Setter Property="Style" Value="{StaticResource EnabledButtonStyle}" />
+                <Setter Property="Text" Value="Continue" />
+            </MultiTrigger>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                          
+                            <BindingCondition Binding="{Binding IsLoading}" Value="True" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Style" Value="{StaticResource DisabledButtonStyle}" />
+                        <Setter Property="Text" Value="" />
+                    </MultiTrigger>
+                  
+                </Button.Triggers>
+               
+            </Button>
+            <HorizontalStackLayout HorizontalOptions="Center" IsVisible="{Binding IsLoading}"  >
+                <ActivityIndicator   HeightRequest="35"  WidthRequest="35" IsRunning="{Binding IsLoading}"></ActivityIndicator>
+                <Label Margin="5,0,0,0"  VerticalOptions="Center" HorizontalOptions="Center"  FontSize="15" FontFamily="InterRegular" Text="Please wait .."  TextColor="#5E5E5E"></Label>
+
+            </HorizontalStackLayout>
+            
+        </Grid>
+    </Grid>
+</ContentPage>

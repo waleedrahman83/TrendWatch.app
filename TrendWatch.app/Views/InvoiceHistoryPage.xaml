@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.InvoiceHistoryPage"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+            
+xmlns:svgg2="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+             Shell.NavBarIsVisible="false" Appearing="ContentPage_Appearing"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                           xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui">
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="auto,auto,*" >
+        <Grid Margin="0,0,5,10"  ColumnDefinitions="*,auto">
+            <Label Margin="20,20,20,10"  Grid.Row="0" VerticalOptions="Center" Grid.Column="0" Text="Invoice History"  FontSize="18" FontFamily="InterSemiBold" />
+          
+            <Frame Grid.Row="0" Margin="10" Padding="10" Grid.Column="1" CornerRadius="20" BorderColor="#D6D6FB" BackgroundColor="#D6D6FB">
+
+                <ImageButton Source="filter.svg"
+                    Clicked="OpenBottomSheet" 
+                     WidthRequest="20"
+                     HeightRequest="20" 
+                />
+                <Frame.Shadow>
+                    <Shadow Brush="Black"
+Opacity="0.5"
+Radius="30"
+Offset="5,5"/>
+                </Frame.Shadow>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="FilterButton_Tapped">
+
+                    </TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </Grid>
+        <Border Margin="10,0" Stroke="#F6F6F6" BackgroundColor="#F6F6F6"
+         StrokeThickness="1" Grid.Row="1"
+         StrokeShape="RoundRectangle 10,10,10,10"
+         Padding="15,3"
+         HorizontalOptions="FillAndExpand">
+            <Grid ColumnDefinitions="auto,*">
+                <Image Grid.Column="0" Source="search.svg"></Image>
+
+                <!--<AbsoluteLayout>-->
+                <!--<StackLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0,0,-1,-1">-->
+                <Entry Placeholder="Search" Margin="10,0" Grid.Column="1" x:Name="entrySearchQuery" HeightRequest="48" BackgroundColor="#F6F6F6" Completed="FilterSearch">
+
+                </Entry>
+
+            </Grid>
+        </Border>
+
+
+        <Grid Grid.Row="2" Margin="0,15,0,0" BackgroundColor="#F6F6F6" RowDefinitions="auto,*,auto">
+           
+            <Grid Grid.Row="1"
+              IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+                <CollectionView  Grid.Row="1" IsVisible="{Binding HasInvoices}" 
+                    RemainingItemsThreshold="1"
+                    RemainingItemsThresholdReached="OnThresholdReached" 
+                    x:Name="cvInvoices"  SelectionMode="Single"  SelectionChanged="CollectionView_SelectionChanged"
+                    Margin="15,0" 
+                    IsGrouped="True" ItemsSource="{Binding InvoicesGrouped}" 
+                    VerticalScrollBarVisibility="Always">
+
+
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+
+                            <Label Margin="0,5"  FontSize="13" TextColor="#828282" FontFamily="InterSemiBold"   Text="{Binding Path=Day, StringFormat='{}{0:dd MMMM, yyyy }'}" />
+
+                        </DataTemplate>
+
+                    </CollectionView.GroupHeaderTemplate>
+
+
+
+                    <CollectionView.ItemTemplate >
+
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,2"  BackgroundColor="White" Padding="10" RowDefinitions="*,auto" ColumnDefinitions="auto,*,auto" >
+                                <Image WidthRequest="50"  Grid.Column="0"  Source="{Binding MerchantLogo}"></Image>
+                                <VerticalStackLayout Spacing="10"  Padding="10"  Grid.Column="1">
+                                    <Label FontSize="18" LineHeight="26" FontFamily="InterMedium" Text="{Binding transactionReference}"></Label>
+                                    <Label  FontSize="12" LineHeight="26" TextColor="#828282" Text="{Binding Path=InvoiceDate, StringFormat='{}{0:dd-MMM-yy hh:mm:ss tt }'}" FontFamily="InterRegular"></Label>
+
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Padding="10" Spacing="10"  Grid.Column="2">
+                                    <Label FontSize="14" HorizontalOptions="EndAndExpand" TextColor="#226B3C" FontFamily="InterSemiBold" >
+
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span  Text="{Binding total}" />
+                                                <Span  Text=" EGP" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+                                    <Label FontSize="12"  HorizontalOptions="EndAndExpand"  FontFamily="InterMedium" TextColor="#226B3C">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span  Text="{Binding NoOfItems}" />
+                                                <Span  Text=" items" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <ActivityIndicator Grid.Row="2" Color="{StaticResource Primary}" IsRunning="{Binding IsLoading}"  HeightRequest="50" WidthRequest="50" />
+
+
+            </Grid>
+
+
+            <Frame Margin="15,25" BorderColor="White" BackgroundColor="White" IsVisible="{Binding HasInvoices, Converter={StaticResource InvertedBoolConverter}}">
+                <Grid RowDefinitions="auto,auto" >
+                    <Frame Margin="20" WidthRequest="50" HeightRequest="50" Grid.Row="0" Padding="10"  CornerRadius="20" BorderColor="#F2EDE6" BackgroundColor="#F2EDE6">
+                        <Image  Source="invoiceblue.svg"></Image>
+                    </Frame>
+
+                    <Label Grid.Row="1"   HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterSemiBold" Text="Your recent transactions will be displayed here " TextColor="#000000"></Label>
+
+                </Grid>
+            </Frame>
+
+
+            <ActivityIndicator Grid.Row="1" Color="{StaticResource Primary}"
+                 IsRunning="{Binding IsLoading}" HeightRequest="50" WidthRequest="50"
+                 />
+        </Grid>
+
+
+
+
+    </Grid>
+</ContentPage>

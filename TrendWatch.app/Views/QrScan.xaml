@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.QrScan"
+              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             Shell.NavBarIsVisible="false" BackgroundColor="#000000"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+            Appearing="ContentPage_Appearing"
+             Title="QrScan">
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+    <Grid  x:Name="gridMain" RowDefinitions="auto,*,auto">
+        <!--<Grid BackgroundColor="Black" x:Name="gridScanner" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >-->
+        <Grid ColumnDefinitions="auto,*">
+
+            <Image Margin="15" Grid.Column="0" HorizontalOptions="Start" Grid.Row="0"   Source="close.svg">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnBack_Clicked" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label TextColor="White" Grid.Column="1" Margin="15"  Grid.Row="0" VerticalOptions="Center"  Text="Scan QR Code"  FontSize="18" FontFamily="InterSemiBold" />
+
+        </Grid>
+
+
+        <!--</Grid>-->
+        <Grid Grid.Row="1">
+        <cv:CameraView    x:Name="cameraView"  CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True"
+                           BarcodeDetected="cameraView_BarcodeDetected"/>
+            <Grid Grid.Row="3">
+            <Border  HeightRequest="300" WidthRequest="300" Stroke="#44D476" BackgroundColor="Transparent"
+         StrokeThickness="5"   
+         StrokeShape="RoundRectangle 25"
+         Padding="15,3"
+         HorizontalOptions="FillAndExpand">
+            </Border>
+                <StackLayout HeightRequest="300" WidthRequest="200" ></StackLayout>
+            </Grid>
+        </Grid>
+        <Button Grid.Row="2" Text="Add manual expense"  Clicked="btnAddManualExpense_Clicked"  x:Name="btnAddManualExpense"  HeightRequest="40" HorizontalOptions="Center" VerticalOptions="End" Margin="0,15,0,30"  BackgroundColor="#E9F7ED" CornerRadius="5" FontSize="14" TextColor="#226B3C"  ></Button>
+    </Grid>
+</ContentPage>

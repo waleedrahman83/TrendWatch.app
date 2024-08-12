@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.OTPpage"
+             Shell.NavBarIsVisible="False"
+             xmlns:converters="clr-namespace:TrendWatch.App.Helpers.Converters"
+
+             >
+    <ContentPage.Resources>
+        <Style x:Key="DisabledButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="LightGray" />
+            <Setter Property="TextColor" Value="Gray" />
+
+        </Style>
+        <Style x:Key="EnabledButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="TextColor" Value="White" />
+
+        </Style>
+
+        <converters:ValidLengthConverter x:Key="LengthConverter" MinInputLength="1" MaxInputLength="1" />
+
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="25" Padding="30">
+
+        <Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg" >
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnBack_Clicked" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Label Text="Enter OTP" FontSize="Medium"/>
+        <Label x:Name="lblTitle" FontSize="Small"   >
+            <!--<Label.FormattedText>
+                <FormattedString>
+                    <Span FontSize="Small"  Text="A code was sent to" />
+                    <Span  FontSize="Small" Text="{Binding MobileNumber}" />
+                </FormattedString>
+            </Label.FormattedText>-->
+        </Label>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+            <Border Stroke="#eeeeee" BackgroundColor="#F6F6F6"
+StrokeThickness="1" 
+StrokeShape="RoundRectangle 10,10,10,10"
+Padding="5,3"
+HorizontalOptions="FillAndExpand">
+                <Entry x:Name="otpEntry1" WidthRequest="50" TextChanged="OTPEntry_TextChanged"
+                   Keyboard="Numeric" MaxLength="1" HorizontalTextAlignment="Center"
+                  BackgroundColor="#F6F6F6" Margin="2"/>
+            </Border>
+            <Border Stroke="#eeeeee" BackgroundColor="#F6F6F6"
+StrokeThickness="1" 
+StrokeShape="RoundRectangle 10,10,10,10"
+Padding="5,3"
+HorizontalOptions="FillAndExpand">
+                <Entry x:Name="otpEntry2" WidthRequest="50" TextChanged="OTPEntry_TextChanged"
+                   Keyboard="Numeric" MaxLength="1" HorizontalTextAlignment="Center"
+                  BackgroundColor="#F6F6F6" Margin="2"/>
+            </Border>
+            <Border Stroke="#eeeeee" BackgroundColor="#F6F6F6"
+StrokeThickness="1" 
+StrokeShape="RoundRectangle 10,10,10,10"
+Padding="5,3"
+HorizontalOptions="FillAndExpand">
+                <Entry x:Name="otpEntry3" WidthRequest="50" TextChanged="OTPEntry_TextChanged"
+                   Keyboard="Numeric" MaxLength="1" HorizontalTextAlignment="Center"
+                   BackgroundColor="#F6F6F6" Margin="2"/>
+            </Border>
+            <Border Stroke="#eeeeee" BackgroundColor="#F6F6F6"
+StrokeThickness="1" 
+StrokeShape="RoundRectangle 10,10,10,10"
+Padding="5,3"
+HorizontalOptions="FillAndExpand">
+                <Entry x:Name="otpEntry4" WidthRequest="50" TextChanged="OTPEntry_TextChanged"
+                   Keyboard="Numeric" MaxLength="1" HorizontalTextAlignment="Center"
+                   BackgroundColor="#F6F6F6" Margin="2"/>
+            </Border>
+            
+        </StackLayout>
+        <Label Margin="10,0,0,0" >
+            <Label.FormattedText>
+     <FormattedString>
+         <Span  FontSize="Small"  Text="Use this OTP for testing: " />
+         <Span  FontSize="Small" FontAttributes="Bold" Text="5060" />
+     </FormattedString>
+ </Label.FormattedText>
+        </Label>
+
+        <Grid >
+
+            <Button   x:Name="submitOTPbtn" Clicked="submitOTPbtn_Clicked"  HeightRequest="56" FontFamily="InterSemiBold" Margin="0,10" FontSize="18" Text="Continue" IsEnabled="False" Style="{StaticResource DisabledButtonStyle}"  >
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                    <MultiTrigger.Conditions>
+
+                        <BindingCondition Binding="{Binding Source={x:Reference otpEntry1},
+            Path=Text.Length,
+             Converter={StaticResource LengthConverter}}"
+            Value="true" />
+
+                        <BindingCondition Binding="{Binding Source={x:Reference otpEntry2},
+            Path=Text.Length,
+             Converter={StaticResource LengthConverter}}"
+            Value="true" />
+
+                        <BindingCondition Binding="{Binding Source={x:Reference otpEntry3},
+            Path=Text.Length,Converter={StaticResource LengthConverter}}"
+            Value="true" />
+
+                        <BindingCondition Binding="{Binding Source={x:Reference otpEntry4},
+            Path=Text.Length,Converter={StaticResource LengthConverter}}"
+            Value="true" />
+                    </MultiTrigger.Conditions>
+
+                    <Setter Property="IsEnabled" Value="True" />
+                    <Setter Property="Style" Value="{StaticResource EnabledButtonStyle}" />
+                    <Setter Property="Text" Value="Continue" />
+                </MultiTrigger>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+
+                            <BindingCondition Binding="{Binding IsLoading}" Value="True" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Style" Value="{StaticResource DisabledButtonStyle}" />
+                        <Setter Property="Text" Value="" />
+                    </MultiTrigger>
+                </Button.Triggers>
+            </Button>
+            <HorizontalStackLayout HorizontalOptions="Center" IsVisible="{Binding IsLoading}"  >
+                <ActivityIndicator   HeightRequest="35"  WidthRequest="35" IsRunning="{Binding IsLoading}"></ActivityIndicator>
+                <Label Margin="5,0,0,0"  VerticalOptions="Center" HorizontalOptions="Center"  FontSize="15" FontFamily="InterRegular" Text="Please wait .."  TextColor="#5E5E5E"></Label>
+
+            </HorizontalStackLayout>
+
+        </Grid>
+       
+        
+    </VerticalStackLayout>
+
+
+</ContentPage>
+
+

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.QRScanPage"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             Shell.NavBarIsVisible="false"
+xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             >
+    
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+    <Grid x:Name="gridMain">
+        <Grid BackgroundColor="Black" x:Name="gridScanner" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
+
+            <!--<zxing:CameraBarcodeReaderView IsDetecting="True"
+  x:Name="cameraBarcodeReaderView"
+  BarcodesDetected="Scanner_BarcodesDetected" />-->
+        </Grid>
+        <Button Clicked="btnToggleFlash_Clicked"  x:Name="btnToggleFlash" Style="{ StaticResource FontIcon }" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,30"  BackgroundColor="#004CB4" CornerRadius="10" FontSize="40" TextColor="White" Grid.Row="0" ></Button>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.InvoiceDetailsPage"
+             Shell.NavBarIsVisible="false" BackgroundColor="#F6F6F6"
+             Title="InvoiceDetailsPage">
+    <ScrollView>
+        <Grid RowDefinitions="auto,auto,auto,auto,auto">
+            <Grid BackgroundColor="White" ColumnDefinitions="auto,*">
+
+                <Image Margin="20,20,20,10" Grid.Column="0" HorizontalOptions="Start" Grid.Row="0"   Source="back.svg">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnBack_Clicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label Grid.Column="1" Margin="20,20,20,10"  Grid.Row="0" VerticalOptions="Center"  Text="Invoice Details"  FontSize="18" FontFamily="InterSemiBold" />
+
+            </Grid>
+            <Grid Grid.Row="1"  BackgroundColor="White" Padding="0,0,0,15"  RowDefinitions="auto,auto,auto,auto,auto">
+            <Image Margin="0,30,0,20" HorizontalOptions="Center" WidthRequest="80" HeightRequest="80"  Source="well.png"></Image>
+            <Label Grid.Row="1" TextColor="#000000" HorizontalOptions="Center" Grid.Column="0"  FontSize="16" FontFamily="InterSemiBold" Text="Well Pharamcy - BH"></Label>
+                <Label Grid.Row="2" TextColor="{StaticResource Primary}" HorizontalOptions="Center" Grid.Column="0"  FontSize="24" FontFamily="InterSemiBold" >
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span  Text="{Binding CurrentInvoice.total}" />
+                            <Span  Text=" EGP" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            <Frame Grid.Row="3" HorizontalOptions="Center" Margin="10,0,0,0" Padding="10" Grid.Column="2" CornerRadius="20" BorderColor="#E9F7ED" BackgroundColor="#E9F7ED">
+                <Label TextColor="#000000" HorizontalOptions="Center" Grid.Column="0"  FontSize="12" FontFamily="InterSemiBold" Text="Pharmacies"></Label>
+
+            </Frame>
+                <Button IsVisible="{Binding FromScan}" FontFamily="InterSemiBold" Margin="10" FontSize="18" Grid.Row="4" Text="Confirm" ></Button>
+
+        </Grid>
+        <Grid Grid.Row="2"  RowDefinitions="auto,auto">
+            <Label Margin="10"  FontSize="14" TextColor="#828282" FontFamily="InterSemiBold"   Text="Price breakdown" />
+            <Frame Grid.Row="2"  Margin="10,0,0,0" Padding="10" Grid.Column="2" CornerRadius="20" BorderColor="White" BackgroundColor="White">
+                <Grid  RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*" >
+                    <Label HorizontalOptions="StartAndExpand" Grid.Row="0" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="Subtotal" />
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="0" Grid.Column="1" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterBold"    >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span  Text="{Binding CurrentInvoice.total}" />
+                                    <Span  Text=" EGP" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="VAT" />
+                    <Label HorizontalOptions="EndAndExpand" Grid.Row="1" Grid.Column="1" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterBold"   Text="0 EGP" />
+
+                    <Label HorizontalOptions="StartAndExpand" Grid.Row="2" Grid.Column="0" Margin="5"  FontSize="14" TextColor="#000000" FontFamily="InterMedium"   Text="Grand Total" />
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="2" Grid.Column="1" Margin="5"  FontSize="14" TextColor="{StaticResource Primary}" FontFamily="InterBold"     >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span  Text="{Binding CurrentInvoice.total}" />
+                                    <Span  Text=" EGP" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+              
+
+            </Frame>
+        </Grid>
+        <Grid Grid.Row="3" RowDefinitions="auto,auto">
+            <Label Margin="10"  FontSize="14" TextColor="#828282" FontFamily="InterSemiBold"   Text="Transaction details" />
+            <Frame Grid.Row="2"  Margin="10,0,0,0" Padding="10" Grid.Column="2" CornerRadius="20" BorderColor="White" BackgroundColor="White">
+                <Grid  RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*" >
+                        <Label HorizontalOptions="StartAndExpand" Grid.Row="0" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="Transaction #" />
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="0" Grid.Column="1" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterBold"   Text="{Binding CurrentInvoice.transactionReference}" />
+
+                        <Label HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="Date" />
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="1" Grid.Column="1" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterBold"   Text="{Binding CurrentInvoice.invoiceDate}" />
+
+                        <Label HorizontalOptions="StartAndExpand" Grid.Row="2" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="Served By" />
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="2" Grid.Column="1" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterBold"   Text="Cashier 1" />
+                </Grid>
+
+
+            </Frame>
+        </Grid>
+        <Grid Grid.Row="4" RowDefinitions="auto,auto">
+            <Label Margin="10"  FontSize="14" TextColor="#828282" FontFamily="InterSemiBold"   Text="Items" />
+            <Frame Grid.Row="2"  Margin="10,0,0,0" Padding="10" Grid.Column="2" CornerRadius="20" BorderColor="White" BackgroundColor="White">
+                    <Grid RowDefinitions="*,auto" >
+                    <CollectionView  x:Name="cvInvoiceItems"  SelectionMode="None"   Margin="5,0"  ItemsSource="{Binding CurrentInvoice.invoiceItems}" >
+                       
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,auto">
+                                <Label Grid.Column="0"  FontSize="12" HorizontalOptions="StartAndExpand"  FontFamily="InterSemiBold" >
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span TextColor="#000000"  Text="{Binding itemName}" />
+                                            <Span TextColor="#828282"  Text=" x" />
+                                            <Span TextColor="#828282"  Text="{Binding quantity}" />
+                                            <Span TextColor="#828282"  Text=" (" />
+                                            <Span TextColor="#828282"  Text="{Binding price}" />
+                                            <Span TextColor="#828282"  Text=" EGP)" />
+
+
+
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
+                                    <Label Grid.Column="1" HorizontalOptions="EndAndExpand" FontSize="12" TextColor="#000000"  FontFamily="InterBold" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span   Text="{Binding totalItemPrice}" />
+                                                <Span  Text=" EGP" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                        <Grid Margin="0,5,0,0" Grid.Row="1" ColumnDefinitions="*,auto" >
+                            <Label HorizontalOptions="StartAndExpand" Grid.Row="2" Grid.Column="0" Margin="5"  FontSize="12" TextColor="#000000" FontFamily="InterMedium"   Text="Total number" />
+                            <Label Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="2"  Margin="5"  FontSize="12" TextColor="{StaticResource Primary}" FontFamily="InterBold"   >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span   Text="{Binding CurrentInvoice.noOfItems}" />
+                                        <Span  Text=" Items" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </Grid>
+                </Frame>
+        </Grid>
+
+    </Grid>
+    </ScrollView>
+</ContentPage>

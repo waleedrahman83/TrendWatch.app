@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.RadioPage" BackgroundColor="#F5F5F5"
+xmlns:svgg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+   xmlns:vm="clr-namespace:TrendWatch.App.ViewModels"
+             
+             Shell.NavBarIsVisible="false"
+             >
+
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <Grid Padding="15" RowDefinitions="auto,*" >
+            <!--<Image HorizontalOptions="Start" Grid.Row="0"   Source="back.svg">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnBack_Clicked" />
+                </Image.GestureRecognizers>
+            </Image>-->
+            <Grid>
+                <Frame Background="White" >
+                    <Grid ColumnDefinitions="*,auto" RowDefinitions="auto,auto" >
+                        <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Start" VerticalTextAlignment="Start"    FontSize="16" FontFamily="InterSemiBold" Text="Now listining .." TextColor="#FF6F61"></Label>
+
+                        <Label Grid.Row="1" FontFamily="InterSemiBold" Padding="5,0" VerticalOptions="Start" VerticalTextAlignment="Start"  TextColor="Black" Text="{Binding NowPlayingTitle}"   FontSize="14" />
+
+                        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                            <Frame  IsVisible="{Binding IsRadioPlaying, Converter={StaticResource InvertedBoolConverter}}" WidthRequest="50" HeightRequest="50" Margin="0" Padding="10"  CornerRadius="20" BorderColor="#F5F5F5" BackgroundColor="#F5F5F5">
+                            <Image WidthRequest="30" HeightRequest="30"  Source="play.svg">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="#3f4757" />
+                                </Image.Behaviors>
+                            </Image>
+                            
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Play_Tapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                            <Frame IsVisible="{Binding IsRadioPlaying }"  WidthRequest="50" HeightRequest="50" Margin="0" Padding="10"  CornerRadius="20" BorderColor="#F5F5F5" BackgroundColor="#F5F5F5">
+                                <Image WidthRequest="30" HeightRequest="30"  Source="stop.svg">
+                                    <Image.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="#3f4757" />
+                                    </Image.Behaviors>
+                                </Image>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Stop_Tapped" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Grid>
+                    </Grid>
+                </Frame>
+            </Grid>
+            <Grid Grid.Row="1"  Margin="0" RowDefinitions="auto,auto" BackgroundColor="#F5F5F5" >
+                <CollectionView  BackgroundColor="#F5F5F5"   Grid.Row="0"
+           Margin="5,5" 
+           
+           x:Name="cvInvoices"  SelectionMode="Single"  
+           ItemsSource="{Binding FeaturedNew}" 
+           VerticalScrollBarVisibility="Always">
+
+
+                       
+
+                        <CollectionView.ItemTemplate >
+
+                            <DataTemplate>
+                            <Grid   Margin="0,10,0,0" RowDefinitions="*,auto" ColumnDefinitions="*,auto,auto">
+                                <Frame BorderColor="{Binding IsPlayingColor}">
+                                <StackLayout   Orientation="Horizontal"  >
+                                    <Image HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="80"  Grid.Row="0" Source="{Binding ImageURL}" Aspect="AspectFill" />
+                                    <Grid RowDefinitions="auto,auto,auto" Padding="10,5" >
+                                        <StackLayout  Grid.Row="0" Orientation="Horizontal">
+                                            <svgg:SvgCachedImage     Source="{Binding SourceLogoURL}"
+CacheDuration="7" Grid.Row="0" HorizontalOptions="Start"
+LoadingPlaceholder="loading.png"
+ErrorPlaceholder="loading.png"
+DownsampleToViewSize="true"
+HeightRequest="20"/>
+                                            <Image IsVisible="{Binding IsPlaying}" WidthRequest="20" Margin="10,0" HeightRequest="20"  Source="play.svg">
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior TintColor="#FF6F61" />
+                                                </Image.Behaviors>
+                                            </Image>
+                                            <Label Padding="20,0" VerticalOptions="Center" VerticalTextAlignment="Center"  TextColor="Grey" Text="{Binding CurrentArticle.ArticleDate, StringFormat='{0:dd-MMM-yy hh:mm tt}'}"   FontSize="12" />
+
+                                        </StackLayout>
+
+                                        <Label Text="{Binding Title}"  Grid.Row="1" FontSize="Medium" HorizontalOptions="Start" />
+
+                                        <Label Text="{Binding Summary}" WidthRequest="230"  Grid.Row="2" FontSize="Small" HorizontalOptions="Start"  LineBreakMode="WordWrap" />
+
+                                    </Grid>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ArticleClickCommand}" CommandParameter="{Binding .}"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                                </Frame>
+                            </Grid>
+
+                        </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <ActivityIndicator Grid.Row="0" Color="{StaticResource Primary}" IsRunning="{Binding IsLoading}"  HeightRequest="50" WidthRequest="50" />
+
+
+            </Grid>
+        </Grid>
+    </ScrollView>
+    
+</ContentPage>

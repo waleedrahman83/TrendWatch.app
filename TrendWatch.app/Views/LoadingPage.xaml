@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.LoadingPage"
+              Shell.NavBarIsVisible="False" BackgroundColor="#EFEBDF"
+                          xmlns:ff="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
+
+             
+              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             Title="LoadingPage">
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="#EFEBDF" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" >
+       
+        <ff:CachedImage
+            Source="intro.gif" WidthRequest="450" HeightRequest="450"
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand" />
+        <!--<ActivityIndicator Color="{StaticResource Primary}"
+                               IsRunning="True" HeightRequest="50" WidthRequest="50"
+                               IsVisible="True" />
+        <Label TextColor="{StaticResource Primary}" Text="Loading..." HorizontalOptions="Center" />-->
+    </VerticalStackLayout>
+</ContentPage>

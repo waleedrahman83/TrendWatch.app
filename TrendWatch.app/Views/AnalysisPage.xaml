@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrendWatch.App.Views.AnalysisPage" 
+xmlns:svgg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+   xmlns:vm="clr-namespace:TrendWatch.App.ViewModels"
+             
+             Shell.NavBarIsVisible="false"
+             >
+
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <Grid   Margin="0" RowDefinitions="auto,auto,auto,auto" BackgroundColor="#F5F5F5" >
+            <Frame Padding="10,5" Grid.Row="0"  Margin="10" BorderColor="White" BackgroundColor="White" >
+                <Grid RowDefinitions="auto,*,auto" >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="18" FontFamily="InterSemiBold" Text="Overall Sentiment" TextColor="#FF6F61"></Label>
+                    <microcharts:ChartView IsVisible="{Binding IsChartLoading, Converter={StaticResource InvertedBoolConverter}}" Margin="0,5" Grid.Row="1"  HeightRequest="180"   x:Name="chartMain" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Label Grid.Row="2"    HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="12" FontFamily="InterRegulariBold" Text="This graph represents a sentiment analysis of recent news articles, generated using AI technology" TextColor="Gray"></Label>
+                    <ActivityIndicator Grid.Row="1" Color="{StaticResource Primary}" IsRunning="{Binding IsChartLoading}"  HeightRequest="50" WidthRequest="50" />
+
+
+
+                </Grid>
+            </Frame>
+            <Frame Padding="10,5" Grid.Row="1"  Margin="10" BorderColor="White" BackgroundColor="White" >
+                <Grid RowDefinitions="auto,auto,auto,auto,auto" >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="18" FontFamily="InterSemiBold" Text="Trending Now" TextColor="#FF6F61"></Label>
+                    <Label Grid.Row="1" Padding="10,5"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterRegular" Text="Top Keywords Shaping the News:" TextColor="Gray"></Label>
+                    <Grid Grid.Row="2">
+                        <CollectionView  Margin="10,0" ItemsSource="{Binding KeyWords}"
+                                          IsVisible="{Binding IsKeywordsLoading, Converter={StaticResource InvertedBoolConverter}}"
+    ItemsLayout="HorizontalList" 
+    HorizontalScrollBarVisibility="Always"
+    VerticalScrollBarVisibility="Never"
+                        BackgroundColor="White">
+
+                        <!-- Define the item template -->
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                        <Frame Margin="0,0,10,0"  Padding="12,7" Grid.Column="1"  CornerRadius="5" BorderColor="#C8C8C8" BackgroundColor="#F5F5F5">
+                                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular"  TextColor="#3f4757">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span FontFamily="InterRegular"   Text="# " />
+                                                        <Span FontFamily="InterSemiBold"  Text="{Binding .}" />
+
+
+
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                        </Frame>
+                                        <!-- Your item layout goes here -->
+                                  
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    </Grid>
+                    <Label Grid.Row="3"  Padding="10,5"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="14" FontFamily="InterRegular" Text="Current Topics Everyone is Talking About:" TextColor="Gray"></Label>
+                    
+                    <Grid Margin="15,0" RowDefinitions="*,auto" Grid.Row="4">
+                        <CollectionView   ItemsSource="{Binding Topics}" IsVisible="{Binding IsKeywordsLoading, Converter={StaticResource InvertedBoolConverter}}"
+
+
+                    BackgroundColor="White">
+
+                            <!-- Define the item template -->
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                            <Label  VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterRegular"  TextColor="Blue">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                    <Span FontFamily="InterRegular"  Text="{Binding .}" />
+
+
+
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+                        <Label Padding="17,5" IsVisible="{Binding IsKeywordsLoading, Converter={StaticResource InvertedBoolConverter}}" Grid.Row="1" VerticalOptions="Center"  Margin="0,0" FontSize="14" FontFamily="InterSemiBold" Text="More topics >"  TextColor="Grey">
+                            
+                        </Label>
+                    </Grid>
+                    <ActivityIndicator Grid.Row="0" Color="{StaticResource Primary}" IsRunning="{Binding IsKeywordsLoading}"  HeightRequest="30" WidthRequest="30" />
+
+
+                </Grid>
+            </Frame>
+
+            <Frame Padding="10,10" Grid.Row="2"  Margin="10" BorderColor="White" BackgroundColor="White" >
+                <Grid RowDefinitions="auto,*" >
+                    <Label Grid.Row="0"   HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"    FontSize="18" FontFamily="InterSemiBold" Text="Trend Analyis" TextColor="#FF6F61"></Label>
+                    <ScrollView Grid.Row="1">
+                        <Grid>
+                            <ActivityIndicator Grid.Row="0" Color="{StaticResource Primary}" IsRunning="{Binding IsLoadingAnalysis}"  HeightRequest="50" WidthRequest="50" />
+                            <Label FormattedText="{Binding FormatedArticleAnalysis}" VerticalOptions="Center" Grid.Column="0" Margin="0,15" FontSize="12" FontFamily="InterRegular"  ></Label>
+
+                        </Grid>
+                    </ScrollView>
+
+
+
+                </Grid>
+            </Frame>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>
